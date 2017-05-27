@@ -1,22 +1,15 @@
-# `svg-inline-react`: Inline SVG wrapper component for React
-
-This component wraps `dangerouslyInnerHTML` prop for easier use. Inlining SVG has pros and cons; See ["Using SVG"](https://css-tricks.com/using-svg/) for further detail. However, I recommended to use static svg transformed as React component, since React now supports svg properly.
-
-## note for 1.x.x user: transpiling is discontinued
-
-I removed `dist` and `es` and made `lib` (which is ES2015 source) default, and there are several reason for it. For now use of ES2015 (and modules) is widespread, there are many tools supporting it (i.e. Webpack 2, Rollup), and you will use them anyway – if you are using React/etc. If you want to stay in CommonJS land, please specify deps as `1.x.x`. i.e) `svg-inline-react: 1.x.x`
+# `react-inline-svg`: Inline SVG wrapper component for React
 
 ## Usage
 
 You can use [`svg-inline-loader`](https://github.com/sairion/svg-inline-loader) with [Webpack](https://webpack.github.io) to inline SVG.
 
-Example:
-
 ```jsx
-import InlineSVG from 'svg-inline-react';
+import { InlineSVG } from '@team-griffin/react-inline-svg';
 
 // Use with loader
-<InlineSVG src={require("svg-inline-loader!icon.svg")} />
+import svg from '!svg-inline-loader!icon.svg';
+<InlineSVG src={svg} />
 
 // Use without loader
 const svgSource = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="48" height="48" viewBox="0 0 48 48">
@@ -27,18 +20,47 @@ const svgSource = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://w
 <InlineSVG src={svgSource} />
 ```
 
-### prop `src` : string
+## API
+
+### InlineSVG
+
+There is an added feature which allows you to template your svg. You can pass in any additional props and they will be templated. It uses lodash's template function, with the variable set to `d`.
+
+For example:
+```jsx
+
+// Let's say this is your svg source file
+<svg>
+  <path foo="${d.myExtraProp}"/>
+</svg>
+
+// Usage
+<InlineSVG myExtraProp="hello"/>
+
+// Output
+<svg>
+  <path foo="hello"/>
+</svg>
+```
+
+#### prop `src` : string
 
 valid SVG element string.
 
-### prop `element` : string
+#### prop `element` : string
 
 You can change element where svg included using `element` prop, default is `<i />`. But self closed tags like `img` is not allowed, and an error will be thrown from React side.
 
-### prop `raw` : bool (experimental!)
+#### prop `raw` : bool (experimental!)
 
 This prop allows your svg file to be rendered directly, without a container element wraps it. This is an experimental feature. Also, the prop will be ignored on server side rendering environment.
 
-## Notes
+### AsyncInlineSVG
 
-[inspired by](https://gist.github.com/MoOx/1eb30eac43b2114de73a)
+This component is a utility component that asynchronously loads in the src of an svg. This allows for inlining of a remote svg.
+
+```jsx
+import { AsyncInlineSVG } from '@team-griffin/react-inline-svg';
+
+<AsyncInlineSVG src="/my/remote/file.svg"/>
+```

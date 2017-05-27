@@ -1,36 +1,39 @@
 {
-  "name": "svg-inline-react",
-  "version": "2.1.0",
+  "name": "@team-griffin/react-inline-svg",
+  "version": "3.0.0",
   "description": "Inline SVG wrapper component for React",
   "main": "lib/index.js",
   "jsnext:main": "lib/index.js",
   "scripts": {
     "test": "karma start",
-    "build": "webpack"
+    "transpile": "babel src -d lib --copy-files",
+    "build": "yarn run transpile"
   },
-  "author": "Jaeho Lee <me@jaeholee.org>",
+  "author": "Joshua Thornton <joshua.thornton@heg.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:sairion/svg-inline-react.git"
+    "url": "git@github.com:team-griffin/react-inline-svg.git"
   },
   "keywords": [
     "svg",
     "react"
   ],
   "bugs": {
-    "url": "https://github.com/sairion/svg-inline-react/issues"
+    "url": "https://github.com/team-griffin/react-inline-svg/issues"
   },
-  "homepage": "https://github.com/sairion/svg-inline-react",
+  "homepage": "https://github.com/team-griffin/react-inline-svg",
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0"
   },
   "devDependencies": {
-    "babel-core": "^6.23.1",
-    "babel-loader": "^6.3.2",
-    "babel-preset-es2015": "^6.22.0",
-    "babel-preset-react": "^6.23.0",
-    "babel-preset-stage-1": "^6.22.0",
+    "babel-cli": "^6.23.0",
+    "babel-core": "^6.1.21",
+    "babel-eslint": "^7.2.1",
+    "babel-loader": "^6.1.0",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
     "karma": "^0.13.21",
     "karma-chrome-launcher": "^0.2.2",
     "karma-mocha": "^0.2.2",
@@ -42,6 +45,10 @@
     "webpack": "^1.12.14"
   },
   "dependencies": {
-    "prop-types": "^15.5.0"
+    "axios": "^0.16.1",
+    "lodash.template": "^4.4.0",
+    "prop-types": "^15.5.0",
+    "ramda": "^0.24.0",
+    "recompose": "^0.23.4"
   }
 }
