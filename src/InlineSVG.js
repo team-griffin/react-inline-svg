@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createElement } from 'react';
 import { string, bool } from 'prop-types';
 import {
   switchSVGAttrToReactProp,
@@ -21,14 +21,12 @@ export const PureInlineSVG = ({
   Element,
   __html,
   ...rest
-}) => (
-  <Element
-    {...rest}
-    src={null}
-    children={null}
-    dangerouslySetInnerHTML={{ __html }}
-  />
-);
+}) => createElement(Element, {
+  ...rest,
+  src: null,
+  children: null,
+  dangerouslySetInnerHTML: { __html },
+});
 
 export const enhance = compose(
   setDisplayName('InlineSVG'),
@@ -55,7 +53,8 @@ export const enhance = compose(
       __html: getSVGFromSource(src).innerHTML,
       ...extractSVGProps(src),
     }),
-    ({ element, src }) => ({
+    ({ element, src, ...rest }) => ({
+      ...rest,
       Element: element,
       __html: src,
     })
