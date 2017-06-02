@@ -46,8 +46,10 @@
     "webpack": "^1.12.14"
   },
   "dependencies": {
+    "@most/create": "^2.0.1",
     "axios": "^0.16.1",
     "lodash.template": "^4.4.0",
+    "most": "^1.4.0",
     "prop-types": "^15.5.0",
     "ramda": "^0.24.0",
     "recompose": "^0.23.4"

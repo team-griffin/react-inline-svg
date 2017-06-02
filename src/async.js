@@ -1,27 +1,41 @@
 import React from 'react';
-import { lifecycle, withState, compose, withProps } from 'recompose';
+import { mapPropsStreamWithConfig } from 'recompose';
+import mostConfig from 'recompose/mostObservableConfig';
 import axios from 'axios';
+import { create } from '@most/create';
+import * as most from 'most';
 
 const fetchSVGContent = (src) => axios.get(src);
 
-export default compose(
-  withState(
-    'rawSrc',
-    'setRawSrc',
-    null,
-  ),
-  lifecycle({
-    componentDidMount: function() {
-      fetchSVGContent(this.props.src).then((response) => this.props.setRawSrc(response.data));
-    },
+const fromColdPromise = (f) => create((add, end, err) => {
+  const promise = f();
 
-    componentWillReceiveProps: function(nextProps) {
-      if(nextProps.src !== this.props.src) {
-        fetchSVGContent(nextProps.src).then((response) => nextProps.setRawSrc(response.data));
-      }
-    },
-  }),
-  withProps((ownerProps) => ({
-    src: ownerProps.rawSrc,
-  })),
+  return promise.then((data) => {
+    add(data);
+    end();
+  }, error);
+});
+
+export default mapPropsStreamWithConfig(mostConfig)(
+  (props$) => {
+    const src$ = props$
+      .map((props) => props.src)
+      .skipRepeats()
+      .map((src) => {
+        return fromColdPromise(() => fetchSVGContent(props.src))
+          .map((response) => response.data);
+      })
+      .switchLatest();
+
+    return most.combine(
+      (props, src) => {
+        return {
+          ...props,
+          src,
+        };
+      },
+      props$,
+      src$,
+    );
+  },
 );
