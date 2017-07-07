@@ -14,7 +14,7 @@ import {
   defaultProps,
   setPropTypes
 } from 'recompose';
-import { ifElse, propEq } from 'ramda';
+import { ifElse, propEq, omit } from 'ramda';
 import template from 'lodash.template';
 
 export const PureInlineSVG = ({
@@ -54,7 +54,7 @@ export const enhance = compose(
       ...extractSVGProps(src),
     }),
     ({ element, src, ...rest }) => ({
-      ...rest,
+      ...omit([ 'raw' ], rest),
       Element: element,
       __html: src,
     })
