@@ -1,6 +1,6 @@
 {
   "name": "@team-griffin/react-inline-svg",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Inline SVG wrapper component for React",
   "main": "lib/index.js",
   "jsnext:main": "lib/index.js",
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@most/create": "^2.0.1",
-    "axios": "^0.16.1",
+    "axios": "^0.18.0",
     "lodash.template": "^4.4.0",
     "most": "^1.4.0",
     "prop-types": "^15.5.0",
